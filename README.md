@@ -7,7 +7,11 @@ This repository contains a minimal Terraform configuration for cloning a K3s con
 - Terraform 1.3+ installed locally
 - Access to a Proxmox cluster and an API token that can clone the base template
 - A template VM (defaults to ID `9000`) prepared with cloud-init
-- An SSH keypair (defaults to `~/.ssh/id_ed25519.pub` for the public key)
+- An SSH keypair (defaults to `~/.ssh/id_ed25519.pub` for the public key). Generate one with:
+
+  ```bash
+  ssh-keygen -t ed25519 -C "andrew-homelab"
+  ```
 
 ## Configuration
 
