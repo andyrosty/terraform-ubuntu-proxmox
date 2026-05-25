@@ -1,21 +1,9 @@
-# Terraform
-**/.terraform/*
+.terraform/
 *.tfstate
 *.tfstate.*
 *.tfvars
 *.tfvars.json
-
-# macOS
-.DS_Store
-
-# IDE
-.vscode/
-.idea/
-
-# Logs
 crash.log
-
-# Overrides
 override.tf
 override.tf.json
 *_override.tf

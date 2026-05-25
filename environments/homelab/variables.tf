@@ -26,3 +26,18 @@ variable "ssh_public_key" {
   type      = string
   sensitive = true
 }
+
+variable "default_username" {
+  type    = string
+  default = "andrew"
+}
+
+variable "default_network_bridge" {
+  type    = string
+  default = "vmbr1"
+}
+
+variable "default_datastore_id" {
+  type    = string
+  default = "local-lvm"
+}
