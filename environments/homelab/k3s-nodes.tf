@@ -14,6 +14,9 @@ module "k3s_nodes" {
   datastore_id   = var.default_datastore_id
   network_bridge = var.default_network_bridge
 
+  ipv4_address = each.value.ipv4_address
+  mac_address  = each.value.mac_address
+
   username       = var.default_username
   ssh_public_key = var.ssh_public_key
 }
