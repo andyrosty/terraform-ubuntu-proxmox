@@ -41,3 +41,15 @@ variable "default_datastore_id" {
   type    = string
   default = "local-lvm"
 }
+
+variable "default_ipv4_gateway" {
+  description = "Default gateway for homelab VMs"
+  type        = string
+  default     = "192.168.50.1"
+}
+
+variable "default_dns_servers" {
+  description = "Default DNS servers for homelab VMs"
+  type        = list(string)
+  default     = ["192.168.50.1"]
+}

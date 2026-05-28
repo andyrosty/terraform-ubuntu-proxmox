@@ -15,6 +15,8 @@ module "k3s_nodes" {
   network_bridge = var.default_network_bridge
 
   ipv4_address = each.value.ipv4_address
+  ipv4_gateway = var.default_ipv4_gateway
+  dns_servers  = var.default_dns_servers
   mac_address  = each.value.mac_address
 
   username       = var.default_username
