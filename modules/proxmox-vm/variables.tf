@@ -10,6 +10,11 @@ variable "template_vm_id" {
   type = number
 }
 
+variable "mac_address" {
+  description = "Static MAC address for the VM network interface"
+  type        = string
+}
+
 variable "cores" {
   type = number
 }
@@ -40,6 +45,16 @@ variable "network_bridge" {
 variable "ipv4_address" {
   type    = string
   default = "dhcp"
+}
+
+variable "ipv4_gateway" {
+  description = "IPv4 gateway for the VM"
+  type        = string
+}
+
+variable "dns_servers" {
+  description = "DNS servers for the VM"
+  type        = list(string)
 }
 
 variable "username" {

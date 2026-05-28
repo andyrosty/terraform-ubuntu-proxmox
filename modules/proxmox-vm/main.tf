@@ -31,14 +31,20 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   network_device {
     bridge = var.network_bridge
+    mac_address = var.mac_address
   }
 
   initialization {
     ip_config {
       ipv4 {
         address = var.ipv4_address
+        gateway = var.ipv4_gateway
       }
     }
+
+    dns {
+    servers = var.dns_servers
+  }
 
     user_account {
       username = var.username

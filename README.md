@@ -28,10 +28,11 @@ This repository provisions a small K3s lab on Proxmox using Terraform. The `modu
 
    ```bash
    export TF_VAR_proxmox_api_token="terraform@pve!homelab=YOUR_SECRET_TOKEN"
+   export TF_VAR_proxmox_endpoint="https://your-proxmox-host:8006/api2/json"
    export TF_VAR_ssh_public_key="$(cat ~/.ssh/id_ed25519.pub)"
    ```
 
-   These environment variables supply the `proxmox_api_token` and `ssh_public_key` inputs referenced in `environments/homelab/variables.tf`.
+   These environment variables supply the `proxmox_api_token`, `proxmox_endpoint`, and `ssh_public_key` inputs referenced in `environments/homelab/variables.tf`.
 
 4. Adjust the node inventory in `environments/homelab/locals.tf` if you need a different mix of control-plane and worker nodes. Each entry lets you change CPU cores, RAM, and disk size:
 
