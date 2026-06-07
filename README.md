@@ -49,7 +49,9 @@ This repository provisions a small K3s lab on Proxmox using Terraform. The `modu
 
 ## Usage
 
-Run Terraform from inside the environment directory:
+### K3s homelab environment
+
+Run Terraform from inside the default K3s environment directory:
 
 ```bash
 cd environments/homelab
@@ -58,7 +60,19 @@ terraform plan
 terraform apply
 ```
 
-The module clones the specified `template_vm_id` on the node named by `var.proxmox_node`, attaches it to `var.default_network_bridge`, sizes the VM based on the `locals.k3s_nodes` entry, and injects the exported SSH public key for the configured username. Cloud-init requests DHCP by default but you can supply a static address via the module's `ipv4_address` variable if needed.
+### AI lab environment
+
+This branch also includes an AI-focused lab under `environments/homelab/ai`. To plan and apply that environment using a named plan file:
+
+```bash
+cd ~/terraform-proxmox/environments/homelab/ai
+terraform plan -out ai-lab-01.tfplan
+terraform apply ai-lab-01.tfplan
+```
+
+### What the module does
+
+The module clones the specified `template_vm_id` on the node named by `var.proxmox_node`, attaches it to `var.default_network_bridge`, sizes the VM based on the relevant `locals.k3s_nodes` (or AI node) entry, and injects the exported SSH public key for the configured username. Cloud-init requests DHCP by default but you can supply a static address via the module's `ipv4_address` variable if needed.
 
 ## Outputs
 
