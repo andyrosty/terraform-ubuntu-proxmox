@@ -1,0 +1,8 @@
+proxmox_endpoint = "https://your-proxmox-host:8006/api2/json"
+proxmox_node     = "proxmox"
+template_vm_id   = 9000
+proxmox_insecure = true
+
+default_username       = "andrew"
+default_network_bridge = "vmbr1"
+default_datastore_id   = "local-lvm"

@@ -1,11 +1,12 @@
-# Terraform Proxmox K3s VMs
+# Terraform Proxmox Homelab VMs
 
-This repository provisions a small K3s lab on Proxmox using Terraform. The `modules/proxmox-vm` module encapsulates VM cloning from an existing cloud-init template, while `environments/homelab` shows how to instantiate both control-plane and worker nodes from that module.
+This repository provisions homelab VMs on Proxmox using Terraform. The `modules/proxmox-vm` module encapsulates VM cloning from an existing cloud-init template, while `environments/homelab/k3s` and `environments/homelab/ai` show how to instantiate K3s and AI-focused nodes from that module.
 
 ## Repository layout
 
 - `modules/proxmox-vm`: Opinionated module for cloning a VM, injecting SSH keys, and applying basic CPU, memory, disk, and network settings.
-- `environments/homelab`: Example environment that defines a set of K3s nodes in `locals.tf` and calls the module for each entry.
+- `environments/homelab/k3s`: K3s environment that defines control-plane and worker nodes in `locals.tf` and calls the module for each entry.
+- `environments/homelab/ai`: AI lab environment that defines AI nodes in `locals.tf` and calls the module for each entry.
 - `terraform.tfvars.example` and `environments/homelab/terraform.tfvars.example`: Sample variable files you can copy and adapt to match your lab.
 
 ## Prerequisites
@@ -17,11 +18,11 @@ This repository provisions a small K3s lab on Proxmox using Terraform. The `modu
 
 ## Configure variables
 
-1. Change into the desired environment directory, e.g. `cd environments/homelab`.
-2. Copy the sample variables file and edit the values to match your Proxmox installation:
+1. Change into the desired environment directory, e.g. `cd environments/homelab/k3s`.
+2. Copy the homelab sample variables file into that environment and edit the values to match your Proxmox installation:
 
    ```bash
-   cp terraform.tfvars.example terraform.tfvars
+   cp ../terraform.tfvars.example terraform.tfvars
    ```
 
 3. Export sensitive values so Terraform can read them without committing secrets to disk:
@@ -32,9 +33,9 @@ This repository provisions a small K3s lab on Proxmox using Terraform. The `modu
    export TF_VAR_ssh_public_key="$(cat ~/.ssh/id_ed25519.pub)"
    ```
 
-   These environment variables supply the `proxmox_api_token`, `proxmox_endpoint`, and `ssh_public_key` inputs referenced in `environments/homelab/variables.tf`.
+   These environment variables supply the `proxmox_api_token`, `proxmox_endpoint`, and `ssh_public_key` inputs referenced in each environment's `variables.tf` (for example, `environments/homelab/k3s/variables.tf`).
 
-4. Adjust the node inventory in `environments/homelab/locals.tf` if you need a different mix of control-plane and worker nodes. Each entry lets you change CPU cores, RAM, and disk size:
+4. Adjust the node inventory in `environments/homelab/k3s/locals.tf` if you need a different mix of control-plane and worker nodes. Each entry lets you change CPU cores, RAM, and disk size:
 
    ```hcl
    locals {
@@ -49,16 +50,31 @@ This repository provisions a small K3s lab on Proxmox using Terraform. The `modu
 
 ## Usage
 
-Run Terraform from inside the environment directory:
+### K3s homelab environment
+
+Run Terraform from inside the K3s environment directory:
 
 ```bash
-cd environments/homelab
+cd environments/homelab/k3s
 terraform init
 terraform plan
 terraform apply
 ```
 
-The module clones the specified `template_vm_id` on the node named by `var.proxmox_node`, attaches it to `var.default_network_bridge`, sizes the VM based on the `locals.k3s_nodes` entry, and injects the exported SSH public key for the configured username. Cloud-init requests DHCP by default but you can supply a static address via the module's `ipv4_address` variable if needed.
+### AI lab environment
+
+This repository also includes an AI-focused lab under `environments/homelab/ai`. To plan and apply that environment using a named plan file:
+
+```bash
+cd environments/homelab/ai
+terraform init
+terraform plan -out ai-lab-01.tfplan
+terraform apply ai-lab-01.tfplan
+```
+
+### What the module does
+
+The module clones the specified `template_vm_id` on the node named by `var.proxmox_node`, attaches it to `var.default_network_bridge`, sizes the VM based on the relevant `locals.k3s_nodes` (or AI node) entry, and injects the exported SSH public key for the configured username. Cloud-init requests DHCP by default but you can supply a static address via the module's `ipv4_address` variable if needed.
 
 ## Outputs
 
