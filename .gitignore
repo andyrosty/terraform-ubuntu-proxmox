@@ -4,7 +4,7 @@
 *.tfstate.*
 *.tfvars
 *.tfvars.json
-
+*.tfplan
 # macOS
 .DS_Store
 
